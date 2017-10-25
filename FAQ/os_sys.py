@@ -48,6 +48,9 @@ print(a)
 '''替换'''
 print('aBc'.replace('B','b'))
 
+'''字符串索引值获取:'''
+print('abc'.index('b'))
+
 '''查看函数帮助信息'''
 help(abs)
 
@@ -59,6 +62,9 @@ print(max(1,4,2,-5,0))
 
 '''取最小值'''
 print(min(1,4,2,-5,0))
+
+'''幂次方计算:'''
+print(pow(10,3))
 
 '''其他数据类型转换为整数'''
 print(int('123'),int(12.63))
@@ -87,3 +93,22 @@ print(type(bool(1)))
 '''
 print('查看list对象内所有属性及方法:')
 print(dir([]))
+
+'''如何判断一个对象是可迭代对象呢？方法是通过collections模块的Iterable类型判断：'''
+from collections import Iterable
+print(isinstance('abc',Iterable))
+print(isinstance([1,2,3],Iterable))
+print(isinstance(123,Iterable))
+
+#把一个list中所有的字符串变成小写：
+L = ['Hello', 'World', 'IBM', 'Apple']
+print([s.lower() for s in L])
+#把一个list中所有的字符串变成大写：
+print([s.upper() for s in L])
+
+'''
+把list、dict、str等Iterable变成Iterator可以使用iter()函数：
+'''
+from collections import Iterator
+print(isinstance(iter([]), Iterator))
+print(isinstance(iter('abc'), Iterator))
