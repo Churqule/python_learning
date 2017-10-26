@@ -69,7 +69,8 @@ execute now():
 #和两层嵌套的decorator相比，3层嵌套的效果是这样的：
 now = log('execute')(now)
 '''
-我们来剖析上面的语句，首先执行log('execute')，返回的是decorator函数，再调用返回的函数，参数是now函数，返回值最终是wrapper函数。
+我们来剖析上面的语句，首先执行log('execute')，返回的是decorator函数，
+再调用返回的函数，参数是now函数，返回值最终是wrapper函数。
 以上两种decorator的定义都没有问题，但还差最后一步。因为我们讲了函数也是对象，它有__name__等属性，
 但你去看经过decorator装饰之后的函数，它们的__name__已经从原来的'now'变成了'wrapper'：
 因为返回的那个wrapper()函数名字就是'wrapper'，所以，需要把原始函数的__name__等属性复制到wrapper()函数中，
@@ -103,6 +104,8 @@ def log(text):
 #import functools是导入functools模块。模块的概念稍候讲解。
 # 现在，只需记住在定义wrapper()的前面加上@functools.wraps(func)即可。
 
+
+#即支持不带text参数的decorator,又支持带text参数的decorator实现方法:
 import functools
 
 def log(text=''):
@@ -118,6 +121,21 @@ def now():
     print('2015-3-25')
 now()
 @log('execute')
+def now():
+    print('2015-3-25')
+now()
+
+#decorator，能在函数调用的前后打印出'begin call'和'end call'的日志。
+import functools
+
+def log(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s():' % ('begin call:', func.__name__))
+            func(*args, **kw)
+            print('%s %s():' % ('end call:', func.__name__))
+        return wrapper
+@log
 def now():
     print('2015-3-25')
 now()
